@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox fx:id="root" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="950.0" style="-fx-background-color: #753114;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+   <children>
+      <StackPane prefHeight="150.0" prefWidth="200.0">
+         <children>
+            <ImageView fx:id="tabuaComPoster" fitHeight="900.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <VBox prefHeight="500.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" onMouseClicked="#reset" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #111111;" text="Reset" textAlignment="CENTER" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets left="50.0" top="220.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Velocidade Trem1" textAlignment="CENTER" wrappingWidth="150.0">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="25.0" top="30.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Slider fx:id="ajustaVelocidadeTrem1" max="50.0" onMouseClicked="#mudarVelocidade" onMouseDragged="#mudarVelocidade" prefHeight="46.0" prefWidth="198.0" VBox.vgrow="NEVER">
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <effect>
+                        <Lighting>
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant color="#ff0e0e" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="H_RESIZE" />
+                     </cursor>
+                  </Slider>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Velocidade Trem2" textAlignment="CENTER" wrappingWidth="150.0">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="25.0" top="30.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Slider fx:id="ajustaVelocidadeTrem2" max="20.0" onMouseClicked="#mudarVelocidade" onMouseDragged="#mudarVelocidade" prefHeight="20.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets bottom="40.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <effect>
+                        <Lighting diffuseConstant="0.88" specularConstant="0.59" specularExponent="30.48">
+                           <bumpInput>
+                              <Shadow height="212.82" radius="105.7675" width="212.25" />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant color="#eb21a7" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="H_RESIZE" />
+                     </cursor>
+                  </Slider>
+                  <MenuButton fx:id="locaisIniciaisDosTrens" mnemonicParsing="false" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #111111;" text="Direção" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets left="35.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold Italic" size="16.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MenuButton>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </children>
+</HBox>
