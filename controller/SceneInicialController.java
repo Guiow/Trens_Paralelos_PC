@@ -85,7 +85,7 @@ public class SceneInicialController implements Initializable
     controller.configuraResolucao(resolucao);     //Configura o Programa com base na resolucao.
     
     stage.setScene(scene); //Muda o Scene atual para o Scene criado
-    stage.setX(80);
+    stage.setX(250);
     stage.setY(0);
   }//fim do metodo swapScene
   

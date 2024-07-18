@@ -1,7 +1,7 @@
 /* ***************************************************************
 * Autor............: Guilherme Oliveira
 * Inicio...........: 22/03/2024
-* Ultima alteracao.: 28/03/2024
+* Ultima alteracao.: 30/04/2024
 * Nome.............: Trens Paralelos
 * Funcao...........: Criar trens que irao ter a funcao principal do aplicativo, que e se mover pelo
   trilho em paralelo com outros trens.
@@ -13,13 +13,16 @@ import util.*;
 import javafx.application.Platform;//contem um metodo usado para fazer alteracoes com threads na GUI com segurança
 import javafx.scene.image.ImageView;
 
-public class Trem extends ImageView implements Runnable
+public class Trem extends Thread
 {
-  private int velocidade; //variavel que representa velocidade, quanto menor o valor maior a velocidade
-  private LocalDeInicio local;
   private final int VALOR_DE_INCREMENTO = 2;//variavel que representa a quantidade de pixels movida a cada iteracao
-  private boolean estaParado;//para fazer verificacoes se o trem esta parado
+  private int velocidade; //variavel que representa velocidade, quanto menor o valor maior a velocidade
+
   private Resolucao resolucao;
+  private ImageView imagemDoTrem;
+  private LocalDeInicio local;
+  
+  private boolean estaParado;//para fazer verificacoes se o trem esta parado
   
   /* ***************************************************************
   * Metodo: Construtor
@@ -29,9 +32,9 @@ public class Trem extends ImageView implements Runnable
     resolucao = objeto resolucao com valores que promovem alinhamento de trem e trilho
   * Retorno: nenhum
   *************************************************************** */
-  public Trem(String imagemURL, Resolucao resolucao)
+  public Trem(String imageURL, Resolucao resolucao)
   {
-    super(imagemURL);
+    imagemDoTrem = new ImageView(String.format("%s%s", resolucao.getImgDiretorio(), imageURL));
     this.resolucao = resolucao;
     velocidade = 15;
   }//fim do construtor
@@ -51,12 +54,12 @@ public class Trem extends ImageView implements Runnable
       while(true)//while infinito que termina quando o programa fecha ou uma excessao e lancada
       {
         Platform.runLater(() -> {// define o layout X e Y inicial e a sentido de rotacao inicial
-        setLayoutX(local.getLayoutXInicial());
-        setLayoutY(local.getLayoutYInicial());
-        setRotate(local.getRotacaoInicial());//0 sentido apontado para baixo 180 para cima
+          imagemDoTrem.setLayoutX(local.getLayoutXInicial());
+          imagemDoTrem.setLayoutY(local.getLayoutYInicial());
+          imagemDoTrem.setRotate(local.getRotacaoInicial());//0 sentido apontado para baixo 180 para cima
         });
       
-        Thread.sleep(300);
+        sleep(300);
         switch (local)//chama metodo correspondente ao movimento do trem de acordo com seu local inicial
         {
           case ESQUERDA_CIMA_RA:
@@ -100,7 +103,8 @@ public class Trem extends ImageView implements Runnable
     {
       incrementaLayoutY(VALOR_DE_INCREMENTO);//incrementa o layout Y para mover o trem para baixo
 
-      if (getLayoutY() > resolucao.getPontoDeAlinhamentoDeCima(count))//verifica se esta no ponto Y certo para fazer proxima curva
+      //verifica se esta no ponto Y certo para fazer proxima curva, se sim realiza a curva
+      if (imagemDoTrem.getLayoutY() > resolucao.getPontoDeAlinhamentoDeCima(count))
       { 
         count++;
         if (count == 5)
@@ -113,7 +117,7 @@ public class Trem extends ImageView implements Runnable
           movimentoCimaDeRotacaoEsquerda();
           
         rotacao = !rotacao;//altera o proximo lado de rotacao
-        Platform.runLater(() -> setRotate(0));//Garante que a rotacao apos a curva sera de 0 graus
+        Platform.runLater(() -> imagemDoTrem.setRotate(0));//Garante que a rotacao apos a curva sera de 0 graus
       }//fim do if
     }//fim do while
   }//fim do metodo movimentoDeCima
@@ -128,29 +132,29 @@ public class Trem extends ImageView implements Runnable
   private void movimentoCimaDeRotacaoDireita()
     throws InterruptedException
   {
-    while (getRotate() > -90)//enquanto o trem rotaciona ate 90 graus no sentido anti horario,
+    while (imagemDoTrem.getRotate() > -90)//enquanto o trem rotaciona ate 90 graus no sentido anti horario,
     {                       //tentando promover a animacao do movimento de rotacao  
       parar();
-      Thread.sleep(velocidade);
+      sleep(velocidade);
       Platform.runLater(() ->
       {
-        setRotate(getRotate() - 3);
-        setLayoutY(getLayoutY() + 1.3);
-        setLayoutX(getLayoutX() + 1);
+        imagemDoTrem.setRotate(imagemDoTrem.getRotate() - 3);
+        imagemDoTrem.setLayoutY(imagemDoTrem.getLayoutY() + 1.3);
+        imagemDoTrem.setLayoutX(imagemDoTrem.getLayoutX() + 1);
       });//rotaciona aos poucos o trem
     }//fim do while
     
     moverParaPontoDeCurva(true);
         
-    while(getRotate() < 0)//enquanto o trem rotaciona de volta, para uma rotacao de 0 graus
+    while(imagemDoTrem.getRotate() < 0)//enquanto o trem rotaciona de volta, para uma rotacao de 0 graus
     {
       parar();
-      Thread.sleep(velocidade);
+      sleep(velocidade);
       Platform.runLater(() ->
       {
-        setRotate(getRotate() + 3);
-        setLayoutX(getLayoutX() + 1);
-        setLayoutY(getLayoutY() + 1);
+        imagemDoTrem.setRotate(imagemDoTrem.getRotate() + 3);
+        imagemDoTrem.setLayoutX(imagemDoTrem.getLayoutX() + 1);
+        imagemDoTrem.setLayoutY(imagemDoTrem.getLayoutY() + 1);
       });
     }//fim do while
   }//fim do metodo movimentoCimaDeRotacaoDireita
@@ -167,28 +171,28 @@ public class Trem extends ImageView implements Runnable
   {
     //faz com que os metodos setLayoutY e setLayoutX movimente apenas o necessario para manter o alinhamento com o trilho
 
-    while (getRotate() < 90)//enquanto o trem rotaciona ate 90 graus no sentido horario
+    while (imagemDoTrem.getRotate() < 90)//enquanto o trem rotaciona ate 90 graus no sentido horario
     {                      //tentando promover a animacao do movimento de rotacao  
       parar();
-      Thread.sleep(velocidade);
+      sleep(velocidade);
       Platform.runLater(() ->
       {
-        setRotate(getRotate() + 3);
-        setLayoutY(getLayoutY() + 1.3);
-        setLayoutX(getLayoutX() - 1);
+        imagemDoTrem.setRotate(imagemDoTrem.getRotate() + 3);
+        imagemDoTrem.setLayoutY(imagemDoTrem.getLayoutY() + 1.3);
+        imagemDoTrem.setLayoutX(imagemDoTrem.getLayoutX() - 1);
       });//rotaciona aos poucos
     }//fim do while
 
     moverParaPontoDeCurva(false);
 
-    while(getRotate() > 0)//enquanto o trem rotaciona de volta, para uma rotacao de 0 graus
+    while(imagemDoTrem.getRotate() > 0)//enquanto o trem rotaciona de volta, para uma rotacao de 0 graus
     {
       parar();
-      Thread.sleep(velocidade);
+      sleep(velocidade);
       Platform.runLater(() -> {
-        setRotate(getRotate() - 3);
-        setLayoutX(getLayoutX() - 1);
-        setLayoutY(getLayoutY() + 1);
+        imagemDoTrem.setRotate(imagemDoTrem.getRotate() - 3);
+        imagemDoTrem.setLayoutX(imagemDoTrem.getLayoutX() - 1);
+        imagemDoTrem.setLayoutY(imagemDoTrem.getLayoutY() + 1);
       });
     }//fim do while
   }//fim do metodo movimentoCimaDeRotacaoEsquerda
@@ -209,7 +213,7 @@ public class Trem extends ImageView implements Runnable
     {
       incrementaLayoutY(-VALOR_DE_INCREMENTO);//decrementa o layout Y para mover o trem para cima
 
-      if (getLayoutY() < resolucao.getPontoDeAlinhamentoDeBaixo(count))
+      if (imagemDoTrem.getLayoutY() < resolucao.getPontoDeAlinhamentoDeBaixo(count))
       {
         count++;
         if (count == 5)
@@ -222,7 +226,7 @@ public class Trem extends ImageView implements Runnable
           movimentoBaixoDeRotacaoEsquerda();
    
         rotacao = !rotacao;//altera o proximo lado de rotacao
-        Platform.runLater(() -> setRotate(180));//Garante que a rotacao da imagem apos a curva sera de 180 graus
+        Platform.runLater(() -> imagemDoTrem.setRotate(180));//Garante que a rotacao da imagem apos a curva sera de 180 graus
       }//fim do if
     }//fim do while
   }//fim do metodo movimentoDeBaixo
@@ -237,30 +241,30 @@ public class Trem extends ImageView implements Runnable
   public void movimentoBaixoDeRotacaoDireita()
     throws InterruptedException
   {
-    while (getRotate() < 270)//enquanto a imagem do trem rotaciona ate 270 graus no sentido horario,
+    while (imagemDoTrem.getRotate() < 270)//enquanto a imagem do trem rotaciona ate 270 graus no sentido horario,
     {                        //tentando promover a animacao do movimento de rotacao  
       parar();
-      Thread.sleep(velocidade);
+      sleep(velocidade);
       Platform.runLater(() ->
       {
-        setRotate(getRotate() + 3);
-        setLayoutY(getLayoutY() - 1.3);
-        setLayoutX(getLayoutX() + 1);
+        imagemDoTrem.setRotate(imagemDoTrem.getRotate() + 3);
+        imagemDoTrem.setLayoutY(imagemDoTrem.getLayoutY() - 1.3);
+        imagemDoTrem.setLayoutX(imagemDoTrem.getLayoutX() + 1);
       });//rotaciona aos poucos o trem
     }//fim do while
     
     
     moverParaPontoDeCurva(true);
    
-    while(getRotate() > 180)//enquanto o trem rotaciona de volta, para uma rotacao de 180 graus
+    while(imagemDoTrem.getRotate() > 180)//enquanto o trem rotaciona de volta, para uma rotacao de 180 graus
     {
       parar();
-      Thread.sleep(velocidade);
+      sleep(velocidade);
       Platform.runLater(() ->
       {
-        setRotate(getRotate() - 3);
-        setLayoutX(getLayoutX() + 1);
-        setLayoutY(getLayoutY() - 1);
+        imagemDoTrem.setRotate(imagemDoTrem.getRotate() - 3);
+        imagemDoTrem.setLayoutX(imagemDoTrem.getLayoutX() + 1);
+        imagemDoTrem.setLayoutY(imagemDoTrem.getLayoutY() - 1);
       });
     }//fim do while
   }//fim do metodo movimentoBaixoDeRotacaoDireita
@@ -275,28 +279,28 @@ public class Trem extends ImageView implements Runnable
   public void movimentoBaixoDeRotacaoEsquerda()
     throws InterruptedException
   {
-    while (getRotate() > 90)//enquanto o trem rotaciona ate 90 graus no sentido anti horario
+    while (imagemDoTrem.getRotate() > 90)//enquanto o trem rotaciona ate 90 graus no sentido anti horario
     {                     //tentando promover a animacao do movimento de rotacao  
       parar();               
-      Thread.sleep(velocidade);
+      sleep(velocidade);
       Platform.runLater(() ->
       {
-        setRotate(getRotate() - 3);
-        setLayoutY(getLayoutY() - 1.3);
-        setLayoutX(getLayoutX() - 1);
+        imagemDoTrem.setRotate(imagemDoTrem.getRotate() - 3);
+        imagemDoTrem.setLayoutY(imagemDoTrem.getLayoutY() - 1.3);
+        imagemDoTrem.setLayoutX(imagemDoTrem.getLayoutX() - 1);
       });//rotaciona aos poucos
     }//fim do while
 
     moverParaPontoDeCurva(false);
 
-    while(getRotate() < 180)//enquanto o trem rotaciona de volta, para uma rotacao de 180 graus
+    while(imagemDoTrem.getRotate() < 180)//enquanto o trem rotaciona de volta, para uma rotacao de 180 graus
     {
       parar();
-      Thread.sleep(velocidade);
+      sleep(velocidade);
       Platform.runLater(() -> {
-        setRotate(getRotate() + 3);
-        setLayoutX(getLayoutX() - 1);
-        setLayoutY(getLayoutY() - 1);
+        imagemDoTrem.setRotate(imagemDoTrem.getRotate() + 3);
+        imagemDoTrem.setLayoutX(imagemDoTrem.getLayoutX() - 1);
+        imagemDoTrem.setLayoutY(imagemDoTrem.getLayoutY() - 1);
       });
     }//fim do while
   }//fim do metodo movimentoBaixoDeRotacaoEsquerda
@@ -311,7 +315,7 @@ public class Trem extends ImageView implements Runnable
     throws InterruptedException
   {
     //diferenca entre a posicao X atual do trem com a posicao que ele devera ir para fazer uma curva alinhado com o trilho
-    int quantidadeDeMovimento = Math.abs((int) getLayoutX() - local.getPontoDeCurva(rotacao));
+    int quantidadeDeMovimento = Math.abs((int) imagemDoTrem.getLayoutX() - local.getPontoDeCurva(rotacao));
     
     //verifica se devera incrementar ou decrementar o layout X do trem
     int valorDeIncremento = rotacao ? VALOR_DE_INCREMENTO : -VALOR_DE_INCREMENTO;
@@ -333,9 +337,9 @@ public class Trem extends ImageView implements Runnable
   private void incrementaLayoutX(int valor)
     throws InterruptedException
   {
-    Thread.sleep(velocidade);
+    sleep(velocidade);
     parar();
-    Platform.runLater(() -> setLayoutX(getLayoutX() + valor));
+    Platform.runLater(() -> imagemDoTrem.setLayoutX(imagemDoTrem.getLayoutX() + valor));
   }//fim do metodo incrementaLayoutX
 
   /* ***************************************************************
@@ -348,10 +352,21 @@ public class Trem extends ImageView implements Runnable
   private void incrementaLayoutY(int valor)
     throws InterruptedException
   {
-    Thread.sleep(velocidade);
+    sleep(velocidade);
     parar();
-    Platform.runLater(() -> setLayoutY(getLayoutY() + valor));
+    Platform.runLater(() -> imagemDoTrem.setLayoutY(imagemDoTrem.getLayoutY() + valor));
   }//fim do metodo incrementaLayoutY
+  
+  /* ***************************************************************
+  * Metodo: getImageView
+  * Funcao: retorna a referencia da imagem quando necessario
+  * Parametros: nenhum
+  * Retorno: ImageView
+  *************************************************************** */
+  public ImageView getImageView()
+  {
+    return imagemDoTrem;
+  }//fim do metodo getImageView
 
   /* ***************************************************************
   * Metodo: setVelocidade
@@ -394,7 +409,7 @@ public class Trem extends ImageView implements Runnable
     throws InterruptedException
   {
     while(estaParado)
-      Thread.sleep(100);
+      sleep(100);
   }//fim do metodo parar
   
 }// fim da classe Trem

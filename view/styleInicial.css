@@ -1,0 +1,87 @@
+/* formata o butao da tela inicial */
+.button
+{
+  -fx-background-color: #5c230b;
+  -fx-background-image: url('../img/imgTelaInicial/start2.png');
+}
+
+/* escurece o botao ao passar o mouse por cima */
+.button:hover
+{
+  -fx-background-image: url('../img/imgTelaInicial/start1.png');
+  -fx-cursor: hand;
+}
+
+/* classe css inicial atinge os botoes da tela inical */
+.choice-box
+{
+  -fx-background-color: white;
+  -fx-text-fill: black;
+  -fx-background-radius: 20px;
+}
+
+/* muda a cor dos botoes ao passar o mouse por cima */
+.choice-box:hover
+{
+  -fx-text-fill: white;
+  -fx-background-color: #333333;
+  -fx-cursor: hand;
+}
+
+
+/* muda a cor da seta do choice bow ao passar o mouse por cima */
+.choice-box:hover .arrow
+{
+  -fx-background-color: white;
+  -fx-cursor: hand;
+}
+
+/* muda a cor da seta do choice box */
+.arrow
+{
+  -fx-background-color: black;
+}
+
+/* muda a cor do context menu que armazena os menu itens do choice box */
+.context-menu
+{
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+}
+
+/* muda a cor de fundo e o raio de cada menu item */
+.menu-item
+{
+  -fx-background-color: white;
+  -fx-background-radius:15px;
+}
+
+/* muda a cor do meu item ao passar o mouse por cima */
+.menu-item:hover
+{
+  -fx-background-color: #333333;
+  -fx-text-fill: white;
+  -fx-cursor: hand;
+}
+
+/* muda a cor do label do menu item ao passar o mouse por cima */
+.menu-item:hover .label
+{
+  -fx-text-fill: white;
+}
+
+/* formata todos os labels para preto em fonte negrito */
+.label
+{
+  -fx-text-fill: black;
+  -fx-font-weight: bold;
+}
+
+/* muda a cor do label do choice box ao passar o mouse por cima */
+.label:hover
+{
+  -fx-text-fill: white;
+}
+
+
+

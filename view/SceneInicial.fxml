@@ -1,39 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SceneInicialController">
-   <children>
-      <ImageView fitHeight="600.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/TelaInicial.png" />
-         </image></ImageView>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
-         <children>
-            <ChoiceBox fx:id="escolheResolucao" layoutX="225.0" layoutY="419.0" prefWidth="150.0" style="-fx-background-color: #ffffff;">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></ChoiceBox>
-            <Button layoutX="250.0" layoutY="336.0" mnemonicParsing="false" onMouseClicked="#startApp" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: eeeeee;" text="Start">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-            <Text fill="#fafafae3" layoutX="193.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resolução de Tela" textAlignment="CENTER">
-               <font>
-                  <Font name="Serif Bold" size="21.0" />
-               </font></Text>
-         </children>
-      </AnchorPane>
-   </children>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" stylesheets="@styleInicial.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SceneInicialController">
+  <children>
+  
+    <ImageView pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="@../img/imgTelaInicial/TelaInicial.png" />
+      </image>
+    </ImageView>
+    
+    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <children>
+        <ChoiceBox fx:id="escolheResolucao" layoutX="288.0" layoutY="499.0" prefWidth="125.0"></ChoiceBox>  
+            <Button layoutX="310.0" layoutY="428.0" onMouseClicked="#startApp" prefHeight="30.0" prefWidth="80.0"></Button>   
+      </children>
+    </AnchorPane>
+    
+  </children>
 </StackPane>

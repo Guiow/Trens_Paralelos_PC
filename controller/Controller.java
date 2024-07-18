@@ -1,7 +1,7 @@
 /* ***************************************************************
 * Autor............: Guilherme Oliveira
 * Inicio...........: 22/03/2024
-* Ultima alteracao.: 10/04/2024
+* Ultima alteracao.: 03/05/2024
 * Nome.............: Trens Paralelos
 * Funcao...........: Gerenciar e tratar os eventos dos botoes, sliders, e menus. Tambem tem a funcao de
   instanciar a classe Trilho.
@@ -20,7 +20,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.event.ActionEvent;
-import javafx.stage.Stage;
 import javafx.fxml.FXML;
 
 import java.util.ResourceBundle;
@@ -68,8 +67,7 @@ public class Controller implements Initializable {
       menuItens[i].setOnAction(event -> {
         alteraLocalDeInicio(event);
       });
-      menuItens[i].setStyle("-fx-background-color: #111111;");
-      menuItens[i].setGraphic(new ImageView(String.format("img/SetaOpcao%d.png", i + 1)));
+      menuItens[i].setGraphic(new ImageView(String.format("img/imgTelaPrincipal/SetaOpcao%d.png", i + 1)));
       locaisIniciaisDosTrens.getItems().add(menuItens[i]);
     }//fim do for
    
@@ -100,7 +98,7 @@ public class Controller implements Initializable {
     root.setPrefHeight(resolucao.getAlturaMaxima());
     root.setPrefWidth(resolucao.getLarguraMaxima());
     
-    trilho.iniciarThreads();//inicia as Threads que movimentam os trens                            
+    trilho.iniciarThreads();
   }//fim do metodo configuraResolucao
 
   /* ***************************************************************
@@ -112,11 +110,13 @@ public class Controller implements Initializable {
   @FXML
   void reset(MouseEvent event) 
   {
+    trilho.resetarTrens();//metodo para resetar os trens
+    
     ajustaVelocidadeTrem1.setValue(VELOCIDADE_INICIAL);//redefine o slider para o valor inicial
     ajustaVelocidadeTrem2.setValue(VELOCIDADE_INICIAL);
+    
     trilho.getTrem1().setVelocidade(VELOCIDADE_INICIAL);//muda a velocidade do trem para a velocidade inicial do app
     trilho.getTrem2().setVelocidade(VELOCIDADE_INICIAL);
-    trilho.resetarTrens();//metodo para resetar os trens
   }//fim do metodo reset
 
   /* ***************************************************************
@@ -148,56 +148,32 @@ public class Controller implements Initializable {
     {
       //quatro opcoes distintas, acionadas de acordo com o menu item clicado pelo usuario
       if (event.getSource().equals(menuItens[0]))
-      {
-        trilho.getTrem1().setLocalDeInicio(LocalDeInicio.ESQUERDA_CIMA_RA);
-        trilho.getTrem2().setLocalDeInicio(LocalDeInicio.DIREITA_CIMA_RA);
-      }//fim do if
+        trilho.setLocalDeInicioDosTrens(LocalDeInicio.ESQUERDA_CIMA_RA, LocalDeInicio.DIREITA_CIMA_RA);
       
-      else if (event.getSource().equals(menuItens[1]))
-      {
-        trilho.getTrem1().setLocalDeInicio(LocalDeInicio.ESQUERDA_CIMA_RA);
-        trilho.getTrem2().setLocalDeInicio(LocalDeInicio.DIREITA_BAIXO_RA);
-      }  //fim do else if
-      
+      else if (event.getSource().equals(menuItens[1]))  
+        trilho.setLocalDeInicioDosTrens(LocalDeInicio.ESQUERDA_CIMA_RA, LocalDeInicio.DIREITA_BAIXO_RA);
+
       else if(event.getSource().equals(menuItens[2]))
-      {
-        trilho.getTrem1().setLocalDeInicio(LocalDeInicio.ESQUERDA_BAIXO_RA);
-        trilho.getTrem2().setLocalDeInicio(LocalDeInicio.DIREITA_CIMA_RA);
-      }//fim do else if
-    
-      else
-      {
-        trilho.getTrem1().setLocalDeInicio(LocalDeInicio.ESQUERDA_BAIXO_RA);
-        trilho.getTrem2().setLocalDeInicio(LocalDeInicio.DIREITA_BAIXO_RA);
-      }//fim do else
+        trilho.setLocalDeInicioDosTrens(LocalDeInicio.ESQUERDA_BAIXO_RA, LocalDeInicio.DIREITA_CIMA_RA);
+
+      else 
+        trilho.setLocalDeInicioDosTrens(LocalDeInicio.ESQUERDA_BAIXO_RA, LocalDeInicio.DIREITA_BAIXO_RA);
     }//fim do if
     
-    else
+    else//se nao, o usuario escolheu o tipo de resolucao RM
     {
       //quatro opcoes distintas, acionadas de acordo com o menu item clicado pelo usuario
-      if (event.getSource().equals(menuItens[0]))//apenas se o usuario escolheu o tipo de resolucao RM
-      {
-        trilho.getTrem1().setLocalDeInicio(LocalDeInicio.ESQUERDA_CIMA_RM);
-        trilho.getTrem2().setLocalDeInicio(LocalDeInicio.DIREITA_CIMA_RM);
-      }//fim do if
-      
+      if (event.getSource().equals(menuItens[0]))
+        trilho.setLocalDeInicioDosTrens(LocalDeInicio.ESQUERDA_CIMA_RM, LocalDeInicio.DIREITA_CIMA_RM);
+
       else if (event.getSource().equals(menuItens[1]))
-      {
-        trilho.getTrem1().setLocalDeInicio(LocalDeInicio.ESQUERDA_CIMA_RM);
-        trilho.getTrem2().setLocalDeInicio(LocalDeInicio.DIREITA_BAIXO_RM);
-      }  //fim do else if
-      
+        trilho.setLocalDeInicioDosTrens(LocalDeInicio.ESQUERDA_CIMA_RM, LocalDeInicio.DIREITA_BAIXO_RM);
+
       else if(event.getSource().equals(menuItens[2]))
-      {
-        trilho.getTrem1().setLocalDeInicio(LocalDeInicio.ESQUERDA_BAIXO_RM);
-        trilho.getTrem2().setLocalDeInicio(LocalDeInicio.DIREITA_CIMA_RM);
-      }//fim do else if
-    
+        trilho.setLocalDeInicioDosTrens(LocalDeInicio.ESQUERDA_BAIXO_RM, LocalDeInicio.DIREITA_CIMA_RM);
+
       else
-      {
-        trilho.getTrem1().setLocalDeInicio(LocalDeInicio.ESQUERDA_BAIXO_RM);
-        trilho.getTrem2().setLocalDeInicio(LocalDeInicio.DIREITA_BAIXO_RM);
-      }//fim do else
+        trilho.setLocalDeInicioDosTrens(LocalDeInicio.ESQUERDA_BAIXO_RM, LocalDeInicio.DIREITA_BAIXO_RM);  
     }//fim do else
     
     reset(null);//reseta os trens

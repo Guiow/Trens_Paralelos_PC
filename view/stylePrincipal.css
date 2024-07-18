@@ -1,0 +1,91 @@
+/* muda a cor de background do root */
+#root
+{
+  -fx-background-color: #753114;
+}
+
+/* formata os botoes da tela principal */
+.button
+{
+  -fx-background-color: #753114;
+  -fx-background-radius: 20px;
+  -fx-text-fill: white;
+  -fx-text-alingment: center;
+  -fx-border-color: black;
+  -fx-border-radius: 20px;
+  -fx-border-width: 4px;
+  -fx-effect: dropshadow(gaussian, #823617, 10, 0.5, 2, 2);
+}
+
+/* muda a cor do butao ao passar o mouse por cima */
+.button:hover
+{
+  -fx-background-color: #a54224;
+  -fx-cursor: hand;
+}
+
+/* formata o menu button da tela principal */
+.menu-button
+{
+  -fx-background-color: #753114;
+  -fx-background-radius: 5px;
+  -fx-border-color: black;
+  -fx-border-width: 2px;
+  -fx-border-radius: 5px;
+  -fx-effect: dropshadow(gaussian, #823617, 10, 0.5, 2, 2);
+}
+
+/* formata o texto no menu button */
+.menu-button .label
+{
+  -fx-text-fill: white;
+  -fx-text-alignment: center;
+}
+
+/* formata a seta do menu button para branco */
+.menu-button .arrow
+{
+  -fx-background-color: white;
+}
+
+/* muda a cor do menu button ao passar o mouse por cima */
+.menu-button:hover
+{
+  -fx-background-color: #a54224;
+  -fx-cursor: hand;
+}
+
+/* formata o container que armazena os menu itens */
+.context-menu
+{
+  -fx-background-color: #753114;
+  -fx-background-radius: 5px;
+  -fx-border-color: black;
+  -fx-border-width: 2px;
+  -fx-border-radius:5px;
+  -fx-effect: dropshadow(gaussian, #823617, 10, 0.5, 2, 2);
+}
+
+/* muda a cor de fundo dos menu itens dentro do menu button */
+.menu-item
+{
+  -fx-background-color: #753114;
+  -fx-background-radius: 10px;
+}
+
+/* muda a cor do menu item ao passar o mouse por cima */
+.menu-item:hover
+{
+  -fx-background-color: #a54224;
+  -fx-cursor: hand;
+  -fx-border-color: white;
+  -fx-border-width: 2px;
+  -fx-border-radius: 10px;
+}
+
+/* muda o cursor dos sliders ao passar o mouse por cima */
+.slider:hover
+{
+  -fx-cursor: h_resize;
+}
+

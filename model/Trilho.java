@@ -1,7 +1,7 @@
 /* ***************************************************************
 * Autor............: Guilherme Oliveira
 * Inicio...........: 22/03/2024
-* Ultima alteracao.: 28/03/2024
+* Ultima alteracao.: 30/04/2024
 * Nome.............: Trens Paralelos
 * Funcao...........: Conter, criar, iniciar ambos os trems. Tambem conter a imagem de background onde os
   trems irao se movimentar.
@@ -17,8 +17,11 @@ public class Trilho extends Pane
 {
   private Trem trem1;
   private Trem trem2;
-  private Thread threadTrem1;
-  private Thread threadTrem2;
+  
+  private LocalDeInicio localDeInicioTrem1;
+  private LocalDeInicio localDeInicioTrem2;
+  
+  private Resolucao resolucao;
 
   /* ***************************************************************
   * Metodo: Construtor
@@ -30,55 +33,71 @@ public class Trilho extends Pane
   {
     getChildren().add(new ImageView(String.format("%sTrilho.png", resolucao.getImgDiretorio())));
     
-    trem1 = new Trem(String.format("%sTremVermelho1.png", resolucao.getImgDiretorio()), resolucao);
-    trem2 = new Trem(String.format("%sTremRoxo2.png", resolucao.getImgDiretorio()), resolucao);
-      
     if (resolucao.getResolucaoTipo().equals("RA"))//coloca os trens em posicoes iniciais de acordo com a resolucao escolhida
     {
-      trem1.setLocalDeInicio(LocalDeInicio.ESQUERDA_CIMA_RA);
-      trem2.setLocalDeInicio(LocalDeInicio.DIREITA_CIMA_RA);
+      localDeInicioTrem1 = LocalDeInicio.ESQUERDA_CIMA_RA;
+      localDeInicioTrem2 = LocalDeInicio.DIREITA_CIMA_RA;
     }//fim do if
     else
     {
-      trem1.setLocalDeInicio(LocalDeInicio.ESQUERDA_CIMA_RM);
-      trem2.setLocalDeInicio(LocalDeInicio.DIREITA_CIMA_RM);
+      localDeInicioTrem1 = LocalDeInicio.ESQUERDA_CIMA_RM;
+      localDeInicioTrem2 = LocalDeInicio.DIREITA_CIMA_RM;
     }//fim do else
     
-    getChildren().add(trem1);
-    getChildren().add(trem2);
+    this.resolucao = resolucao;
   }//fim do construtor
-  
   
   /* ***************************************************************
   * Metodo: iniciarThreads
-  * Funcao: Instancia, configura e inicia as threads onde cada uma corresponde a um trem
+  * Funcao: Instancia, configura, reinicia e inicia as threads onde cada uma corresponde a um trem
   * Parametros: nenhum
   * Retorno: void
   *************************************************************** */
   public void iniciarThreads()
   {
-    threadTrem1 = new Thread(trem1);
-    threadTrem2 = new Thread(trem2);
-    threadTrem1.setDaemon(true);//para terminar as threads quando o programa fechar
-    threadTrem2.setDaemon(true);
-    threadTrem1.start();//para executar as threads
-    threadTrem2.start();
+    trem1 = new Trem("TremVermelho1.png", resolucao);//cria os dois trens
+    trem2 = new Trem("TremRoxo2.png", resolucao);
+    
+    trem1.setLocalDeInicio(localDeInicioTrem1);//seta o local de inicio dos trens
+    trem2.setLocalDeInicio(localDeInicioTrem2);
+    
+    trem1.setDaemon(true);//para terminar as threads quando o programa fechar
+    trem2.setDaemon(true);
+    
+    trem1.start();//para executar as threads
+    trem2.start();
+    
+    getChildren().add(trem1.getImageView());//adiciona as imagens dos trens ao trilho
+    getChildren().add(trem2.getImageView());
   }//fim do metodo iniciarThreads
 
   /* ***************************************************************
   * Metodo: resetarTrens
-  * Funcao: Interrompe as threads em execucao, e chama o metodo iniciarThreads para instanciar novamente
+  * Funcao: Interrompe as threads em execucao, e chama o metodo iniciarThreads para iniciar novamente
     as threads
   * Parametros: nenhum
   * Retorno: void
   *************************************************************** */
   public void resetarTrens()
   {
-    threadTrem1.interrupt();
-    threadTrem2.interrupt();
+    trem1.interrupt();
+    trem2.interrupt();
+    getChildren().removeAll(trem1.getImageView(), trem2.getImageView());
     iniciarThreads();
   }//fim do metodo resetarTrens
   
+    /* ***************************************************************
+  * Metodo: setLocalDeInicioDosTrens
+  * Funcao: muda a variavel localDeInicio de ambos os trens para que mudem o local de partida
+  * Parametros: localDeInicioTrem1 = posicao de onde o trem1 ira partir, 
+                localDeInicioTrem2 = posicao de onde o trem2 ira partir
+  * Retorno: void
+  *************************************************************** */
+  public void setLocalDeInicioDosTrens(LocalDeInicio localDeInicioTrem1, LocalDeInicio localDeInicioTrem2)
+  {
+    this.localDeInicioTrem1 = localDeInicioTrem1;
+    this.localDeInicioTrem2 = localDeInicioTrem2;
+  }
   
   /* ***************************************************************
   * Metodo: getTrem1
@@ -90,7 +109,6 @@ public class Trilho extends Pane
   public Trem getTrem1() {
     return trem1;
   }//fim do metodo getTrem1
-
 
   /* ***************************************************************
   * Metodo: getTrem2
