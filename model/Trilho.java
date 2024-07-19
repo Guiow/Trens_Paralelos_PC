@@ -1,10 +1,10 @@
 /* ***************************************************************
 * Autor............: Guilherme Oliveira
 * Inicio...........: 22/03/2024
-* Ultima alteracao.: 30/04/2024
+* Ultima alteracao.: 20/05/2024
 * Nome.............: Trens Paralelos
-* Funcao...........: Conter, criar, iniciar ambos os trems. Tambem conter a imagem de background onde os
-  trems irao se movimentar.
+* Funcao...........: Cria, instancia e interrompe as threads relacionadas ao trem, de forma que seja a classe que gerencia
+  o processo de criaçao e de finalizacao dos trens
 *************************************************************** */
 package model;
 
@@ -15,13 +15,15 @@ import javafx.scene.layout.Pane;
 
 public class Trilho extends Pane
 {
-  private Trem trem1;
+  private Trem trem1;// cria os dos trens
   private Trem trem2;
-  
-  private LocalDeInicio localDeInicioTrem1;
+  private LocalDeInicio localDeInicioTrem1;// salva o local de inicio de ambos os trens
   private LocalDeInicio localDeInicioTrem2;
   
-  private Resolucao resolucao;
+  private Resolucao resolucao;// salva a resolucao escolhida
+  
+  private ExclusaoMutua recursoCompartilhado;//representa a parte compartilhada, trilho unico, dos trens
+  private int tipoDeAlgoritmo;
 
   /* ***************************************************************
   * Metodo: Construtor
@@ -31,9 +33,9 @@ public class Trilho extends Pane
   *************************************************************** */
   public Trilho (Resolucao resolucao)
   {
-    getChildren().add(new ImageView(String.format("%sTrilho.png", resolucao.getImgDiretorio())));
+    getChildren().add(new ImageView(String.format("%sTrilho.png", resolucao.getImgDiretorio())));//adiciona a imagem do trilho
     
-    if (resolucao.getResolucaoTipo().equals("RA"))//coloca os trens em posicoes iniciais de acordo com a resolucao escolhida
+    if (resolucao.getResolucaoTipo().equals("RA"))//coloca os trens nas posicoes iniciais de acordo com a resolucao escolhida
     {
       localDeInicioTrem1 = LocalDeInicio.ESQUERDA_CIMA_RA;
       localDeInicioTrem2 = LocalDeInicio.DIREITA_CIMA_RA;
@@ -45,6 +47,8 @@ public class Trilho extends Pane
     }//fim do else
     
     this.resolucao = resolucao;
+    recursoCompartilhado = new ExclusaoMutua(resolucao);
+    tipoDeAlgoritmo = 1;//algoritmo inicial sera a variavelDeTravamento
   }//fim do construtor
   
   /* ***************************************************************
@@ -55,16 +59,19 @@ public class Trilho extends Pane
   *************************************************************** */
   public void iniciarThreads()
   {
-    trem1 = new Trem("TremVermelho1.png", resolucao);//cria os dois trens
-    trem2 = new Trem("TremRoxo2.png", resolucao);
+    recursoCompartilhado.reconfigurarAlgoritmo(tipoDeAlgoritmo, localDeInicioTrem1.getLayoutYInicial(),
+    localDeInicioTrem2.getLayoutYInicial());//reconfigura o recursoCompartilhado dos trens
     
-    trem1.setLocalDeInicio(localDeInicioTrem1);//seta o local de inicio dos trens
+    trem1 = new Trem("TremVermelho1.png", resolucao, recursoCompartilhado, 1);//recria os trens
+    trem2 = new Trem("TremRoxo2.png", resolucao, recursoCompartilhado, 2);
+    
+    trem1.setLocalDeInicio(localDeInicioTrem1);//configura o local de inicio dos trens
     trem2.setLocalDeInicio(localDeInicioTrem2);
     
     trem1.setDaemon(true);//para terminar as threads quando o programa fechar
     trem2.setDaemon(true);
     
-    trem1.start();//para executar as threads
+    trem1.start();//para começar a executar os threads
     trem2.start();
     
     getChildren().add(trem1.getImageView());//adiciona as imagens dos trens ao trilho
@@ -80,16 +87,16 @@ public class Trilho extends Pane
   *************************************************************** */
   public void resetarTrens()
   {
-    trem1.interrupt();
+    trem1.interrupt();//interrompe as threads
     trem2.interrupt();
-    getChildren().removeAll(trem1.getImageView(), trem2.getImageView());
-    iniciarThreads();
+    getChildren().removeAll(trem1.getImageView(), trem2.getImageView());//remove as imagens paradas dos trens
+    iniciarThreads();//reinicia as threads
   }//fim do metodo resetarTrens
   
-    /* ***************************************************************
+  /* ***************************************************************
   * Metodo: setLocalDeInicioDosTrens
   * Funcao: muda a variavel localDeInicio de ambos os trens para que mudem o local de partida
-  * Parametros: localDeInicioTrem1 = posicao de onde o trem1 ira partir, 
+  * Parametros: localDeInicioTrem1 = posicao de onde o trem1 ira partir 
                 localDeInicioTrem2 = posicao de onde o trem2 ira partir
   * Retorno: void
   *************************************************************** */
@@ -97,7 +104,7 @@ public class Trilho extends Pane
   {
     this.localDeInicioTrem1 = localDeInicioTrem1;
     this.localDeInicioTrem2 = localDeInicioTrem2;
-  }
+  }//fim do metodo setLocalDeinicioDosTrens
   
   /* ***************************************************************
   * Metodo: getTrem1
@@ -119,4 +126,26 @@ public class Trilho extends Pane
   public Trem getTrem2() {
     return trem2;
   }//fim do metodo getTrem2
+  
+  /* ***************************************************************
+  * Metodo: setTipoDeAlgoritmo
+  * Funcao: muda a variavel tipoDeAlgoritmo quando o usuario chamar um evento relacionado
+  * Parametros: tipoDeAlgoritmo = muda para o algoritmo escolhido pelo usuario
+  * Retorno: void
+  *************************************************************** */
+  public void setTipoDeAlgoritmo(int tipoDeAlgoritmo)
+  {
+    this.tipoDeAlgoritmo = tipoDeAlgoritmo;
+  }//fim do metodo setTipoDeAlgoritmo
+  
+  /* ***************************************************************
+  * Metodo: getRecursoCompartilhado
+  * Funcao: retornar a referencia do recursoCompartilhado pelos trens
+  * Parametros: nenhum
+  * Retorno: ExclusaoMutua
+  *************************************************************** */
+  public ExclusaoMutua getRecursoCompartilhado()
+  {
+    return recursoCompartilhado;
+  }//fim do metodo getRecursoCompartilhado
 }//fim da classe Trilho

@@ -5,7 +5,7 @@
 }
 
 /* formata os botoes da tela principal */
-.button
+#resetButton
 {
   -fx-background-color: #753114;
   -fx-background-radius: 20px;
@@ -18,14 +18,14 @@
 }
 
 /* muda a cor do butao ao passar o mouse por cima */
-.button:hover
+#resetButton:hover
 {
   -fx-background-color: #a54224;
   -fx-cursor: hand;
 }
 
 /* formata o menu button da tela principal */
-.menu-button
+#menuButtonDirecao
 {
   -fx-background-color: #753114;
   -fx-background-radius: 5px;
@@ -36,27 +36,27 @@
 }
 
 /* formata o texto no menu button */
-.menu-button .label
+#menuButtonDirecao .label
 {
   -fx-text-fill: white;
   -fx-text-alignment: center;
 }
 
 /* formata a seta do menu button para branco */
-.menu-button .arrow
+#menuButtonDirecao .arrow
 {
   -fx-background-color: white;
 }
 
 /* muda a cor do menu button ao passar o mouse por cima */
-.menu-button:hover
+#menuButtonDirecao:hover
 {
   -fx-background-color: #a54224;
   -fx-cursor: hand;
 }
 
 /* formata o container que armazena os menu itens */
-.context-menu
+#menuButtonDirecao .context-menu
 {
   -fx-background-color: #753114;
   -fx-background-radius: 5px;
@@ -67,14 +67,14 @@
 }
 
 /* muda a cor de fundo dos menu itens dentro do menu button */
-.menu-item
+#menuButtonDirecao .menu-item
 {
   -fx-background-color: #753114;
   -fx-background-radius: 10px;
 }
 
 /* muda a cor do menu item ao passar o mouse por cima */
-.menu-item:hover
+#menuButtonDirecao .menu-item:hover
 {
   -fx-background-color: #a54224;
   -fx-cursor: hand;
@@ -89,3 +89,160 @@
   -fx-cursor: h_resize;
 }
 
+/* alinha o texto dos labels para o centro e deixa-os em negrito */
+.statusDoAlgoritmo
+{
+  -fx-text-alignment: center;
+  -fx-font-weight: bold;
+}
+
+/* modifica o estilo dos nomes do algoritmo */
+#nomeDoAlgoritmo
+{
+  -fx-text-fill: white;
+  -fx-font-size: 13px;
+}
+
+/* modifica o estilo dos labels com o texto Acesso */
+
+#acessoDeVariavelDeTravamento
+{
+  -fx-text-fill: white;
+  -fx-font-size: 19px;
+}
+
+/* modifica o estilo dos labels com o texto PERMITIDO */
+#permitidoPassar
+{
+  -fx-text-fill: lawngreen;
+  -fx-font-size: 14px;
+}
+
+/* modifica o estilo dos labels com o texto PROIBIDO */
+#proibidoPassar
+{
+  -fx-text-fill: #ff0a30;
+  -fx-font-size: 16px;
+}
+
+/* modifica o estilo dos labels com o texto Vez apenas para o algoritmo de explicita alternancia */
+#vezDeExplicitaAlternancia
+{
+  -fx-text-fill: white;
+  -fx-font-size: 24px;
+}
+
+/* modifica o estilo dos labels com o texto Trem 1 apenas para o algoritmo de explicita alternancia */
+#vezTremVermelho
+{
+  -fx-text-fill: #ff0a30;
+  -fx-font-size: 22px;
+}
+
+/* modifica o estilo dos labels com o texto Trem 2 apenas para o algoritmo de explicita alternancia */
+#vezTremRoxo
+{
+  -fx-text-fill: #c54ccf;
+  -fx-font-size: 22px;
+}
+
+/* modifica o estilo dos labels com o texto Vez apenas para o algoritmo de solucao de peterson */
+#vezDeSolucaoDePeterson
+{
+  -fx-font-size: 13px;
+  -fx-text-fill: white;
+}
+
+/* modifica o estilo dos labels com o texto Trem 1 ou 2 apenas para o algoritmo de solucao de peterson */
+#textoTrem
+{
+  -fx-text-fill: white;
+  -fx-font-size: 12px;
+}
+
+/* modifica o estilo dos labels com o texto Indiferente */
+#indiferenteSolucaoDePeterson
+{
+  -fx-text-fill: #ff0a30;
+  -fx-font-size: 12px;
+}
+
+/* modifica o estilo dos labels com o texto Interessado */
+#interessadoSolucaoDePeterson
+{
+  -fx-text-fill: lawngreen;
+  -fx-font-size: 12px;
+}
+
+/* modifica o menuButton que escolhe os algoritmos */
+#menuButtonAlgoritmo
+{
+  -fx-pref-height: 40px;
+  -fx-pref-width: 120px;
+  -fx-background-image: url('../img/imgTelaPrincipal/BotaoOpcaoAlgoritmo1.png');
+  -fx-background-color: #5c230b;
+  -fx-effect: dropshadow(gaussian, #823617, 10, 0.5, 2, 2);
+}
+
+/* modifica a seta do menuButton que escolhe os algoritmos */
+#menuButtonAlgoritmo .arrow
+{
+  -fx-background-color: white;
+}
+
+/* modifica a imagem do menuButton que escolhe os algoritmos quando passar o mouse por cima */
+#menuButtonAlgoritmo:hover
+{
+  -fx-cursor: hand;
+  -fx-background-image: url('../img/imgTelaPrincipal/BotaoOpcaoAlgoritmo2.png');
+}
+
+/* modifica a seta do menuButton que escolhe os algoritmos quando passar o mouse por cima */
+#menuButtonAlgoritmo:hover .arrow
+{
+  -fx-background-color: gray;
+}
+
+/* modifica o contextMenu do menuButton que escolhe os algoritmos */
+#menuButtonAlgoritmo .context-menu
+{
+  -fx-background-color: gray;
+  -fx-background-radius: 7px;
+  -fx-padding: 5px;
+  -fx-pref-width: 140px;
+  -fx-border-color: black;
+  -fx-border-width: 3px;
+  -fx-border-radius:5px;
+}
+
+/* modifica os menuItems do menuButton que escolhe os algoritmos */
+#menuButtonAlgoritmo .menu-item
+{
+  -fx-background-color: white;
+  -fx-background-radius: 10px;
+  -fx-pref-height: 40px;
+  -fx-pref-width: 120px;
+  -fx-padding: 10px;
+  -fx-border-width: 2px;
+  -fx-border-color: black;
+  -fx-border-radius: 10px;
+}
+
+/* modifica os menuItems do menuButton que escolhe os algoritmos quando passar o mouse por cima */
+#menuButtonAlgoritmo .menu-item:hover
+{
+  -fx-background-color: #cccccc;
+  -fx-border-width: 3px;
+  -fx-pref-height: 45px;
+  -fx-pref-width: 135px;
+  -fx-cursor: hand;
+}
+
+/* modifica os labels do menuButton que escolhe os algoritmos*/
+#menuButtonAlgoritmo .menu-item .label
+{
+  -fx-font-size: 15px;
+  -fx-text-fill: black;
+  -fx-font-weight: bold;
+  -fx-text-alignment: center;
+}

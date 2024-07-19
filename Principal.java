@@ -45,6 +45,5 @@ public class Principal extends Application
     SceneInicialController sceneInicialController;
     Controller controller;
     launch();
-  }//fim do metodo main
-  
+  }//fim do metodo main 
 }// fim da classe Principal

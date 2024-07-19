@@ -1,21 +1,22 @@
 /* ***************************************************************
 * Autor............: Guilherme Oliveira
 * Inicio...........: 22/03/2024
-* Ultima alteracao.: 30/04/2024
+* Ultima alteracao.: 16/05/2024
 * Nome.............: Trens Paralelos
 * Funcao...........: Classe enum utilizada para criar as 4 possiveis localizacoes iniciais, cada uma
   delas armazena a posicao X e Y inicial na qual o trem ira comecar seu movimento pelo trilho
 *************************************************************** */
-
 package util;
 
 public enum LocalDeInicio
 {
-  ESQUERDA_CIMA_RA(167, -100, 0, 240, 200), DIREITA_CIMA_RA(383, -100, 0, 349, 307),//valores usados caso escolhido alta resolucao
-  ESQUERDA_BAIXO_RA(167, 900, 180, 240, 200), DIREITA_BAIXO_RA(383, 900, 180, 349, 307),
+  //valores usados caso escolhido resolucao alta
+  ESQUERDA_CIMA_RA(167, -100, 0, 244, 198), DIREITA_CIMA_RA(383, -100, 0, 351, 307),
+  ESQUERDA_BAIXO_RA(167, 900, 180, 244, 198), DIREITA_BAIXO_RA(383, 900, 180, 351, 307),
   
-  ESQUERDA_CIMA_RM(133, -80, 0, 186, 166), DIREITA_CIMA_RM(307, -80, 0, 273, 254),// valores usados caso escolhido media resolucao
-  ESQUERDA_BAIXO_RM(133, 720, 180, 186, 166), DIREITA_BAIXO_RM(307, 720, 180, 273, 254);
+  // valores usados caso escolhido resolucao media
+  ESQUERDA_CIMA_RM(133, -80, 0, 188, 165), DIREITA_CIMA_RM(307, -80, 0, 275, 251),
+  ESQUERDA_BAIXO_RM(133, 720, 180, 188, 165), DIREITA_BAIXO_RM(307, 720, 180, 275, 251);
 
   private int layoutXInicial;
   private int layoutYInicial;
@@ -71,7 +72,7 @@ public enum LocalDeInicio
   *************************************************************** */
   public int getRotacaoInicial() {
     return rotacaoInicial;
-  }
+  }//fim do metodo getRotacaoInicial
   
   /* ***************************************************************
   * Metodo: getPontoDeCurva
